@@ -1,6 +1,6 @@
 import { Text } from 'react-native';
 import React, { Component } from 'react';
-import { recipes, categories, ingredients } from './dataArrays';
+import { recipes, categories, ingredients, stepIngredients, steps } from './dataArrays';
 
 export function getCategoryById(categoryId) {
   let category;
@@ -12,11 +12,54 @@ export function getCategoryById(categoryId) {
   return category;
 }
 
+export function getStepById(stepId) {
+  let step;
+  steps.map(data => {
+    if (data.stepId == stepId) {
+      step = data;
+      //if there are stepIngredients for this step, look them up by id and assign them to step.stepIngredients
+      if (data.stepIngredients) {
+        step.stepIngredients = data.stepIngredients.map(stepIngredientId => {
+          return getStepIngredientById(stepIngredientId); 
+        });
+      }
+    }});
+  return step;
+}
+
+export function getStepIngredientById(stepIngredientId) {
+  let stepIngredient;
+  stepIngredients.map(data => {
+    if (data.stepIngredientId == stepIngredientId) {
+      stepIngredient = data;
+    }
+  });
+  return stepIngredient;
+}
+
 export function getIngredientName(ingredientID) {
   let name;
   ingredients.map(data => {
     if (data.ingredientId == ingredientID) {
       name = data.name;
+    }
+  });
+  return name;
+}
+export function getStepIngredientName(stepIngredientID) {
+  let name;
+  stepIngredients.map(data => {
+    if (data.stepIngredientId == stepIngredientID) {      
+      let parts = []
+      //assign parts amount to the array if it is not empty
+      if (data.amount) parts = [...parts, data.amount]
+      //assign parts units to the array if it is not empty
+      if (data.units) parts = [...parts, data.units]
+      //assign parts ingredientId to the array if it is not empty
+      if (data.ingredientId) parts = [...parts, getIngredientName(data.ingredientId)]
+
+      //  data.amount, data.ingredientId]
+      name = parts.join(' ');
     }
   });
   return name;

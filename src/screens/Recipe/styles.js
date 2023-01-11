@@ -41,12 +41,42 @@ const styles = StyleSheet.create({
     margin: 25,
     marginTop: 20,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'left'
   },
   infoContainer: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'left',
+    justifyContent: 'flex-start',
+  },
+  topInfoContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'left',
+    //justify content between
+    justifyContent: 'space-between',  
+  },
+  timeContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'right',
+    justifyContent: 'flex-end',
+    marginTop: 5,
+  },
+  timeSubContainer: {
+    marginLeft: 5,
+  },
+  timeTotal: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'left',
+    justifyContent: 'flex-start',
+  },
+  timeActive: {
+    flex: 1,
+    
+    flexDirection: 'row',
+    alignItems: 'left',
     justifyContent: 'flex-start',
   },
   buttonContainer: {

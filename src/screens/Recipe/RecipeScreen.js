@@ -16,6 +16,9 @@ import {
 } from "../../data/MockDataAPI";
 import BackButton from "../../components/BackButton/BackButton";
 import ViewIngredientsButton from "../../components/ViewIngredientsButton/ViewIngredientsButton";
+import IngredientsList from "../../components/IngredientsList/IngredientsList";
+
+import StepsList from "../../components/StepsList/StepsList";
 
 const { width: viewportWidth } = Dimensions.get("window");
 
@@ -71,10 +74,10 @@ export default function RecipeScreen(props) {
             inactiveSlideScale={1}
             inactiveSlideOpacity={1}
             firstItem={0}
-            loop={false}
-            autoplay={false}
+            loop={true}
+            autoplay={true}
             autoplayDelay={500}
-            autoplayInterval={3000}
+            autoplayInterval={10000}
             onSnapToItem={(index) => setActiveSlide(0)}
           />
           <Pagination
@@ -92,38 +95,53 @@ export default function RecipeScreen(props) {
         </View>
       </View>
       <View style={styles.infoRecipeContainer}>
+        <View style={styles.topInfoContainer}>
+          <View style={styles.infoContainer}>  
+            <TouchableHighlight
+              onPress={() =>
+                navigation.navigate("RecipesList", { category, title })
+              }
+            >
+              <Text style={styles.category}>
+                {getCategoryName(item.categoryId).toUpperCase()}
+              </Text>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.timeContainer}>
+            <Image
+              style={styles.infoPhoto}
+              source={require("../../../assets/icons/time.png")}
+            />
+            <View style={styles.timeSubContainer}>
+              <Text style={styles.timeTotal}>{item.total_length_in_minutes} minutes total</Text>
+              <Text style={styles.timeActive}>{item.active_length_in_minutes} minutes active</Text>
+            </View>
+          </View>
+        </View>
         <Text style={styles.infoRecipeName}>{item.title}</Text>
-        <View style={styles.infoContainer}>
-          <TouchableHighlight
-            onPress={() =>
-              navigation.navigate("RecipesList", { category, title })
-            }
-          >
-            <Text style={styles.category}>
-              {getCategoryName(item.categoryId).toUpperCase()}
-            </Text>
-          </TouchableHighlight>
-        </View>
+        
 
         <View style={styles.infoContainer}>
-          <Image
-            style={styles.infoPhoto}
-            source={require("../../../assets/icons/time.png")}
-          />
-          <Text style={styles.infoRecipe}>{item.time} minutes </Text>
+          
         </View>
 
-        <View style={styles.infoContainer}>
-          <ViewIngredientsButton
+        
+
+        <View style={styles.infoContainer}> 
+          <IngredientsList
+            ingredients={item.ingredients}
+            stepIngredients={item.stepIngredients}
             onPress={() => {
               let ingredients = item.ingredients;
               let title = "Ingredients for " + item.title;
               navigation.navigate("IngredientsDetails", { ingredients, title });
             }}
           />
-        </View>
-        <View style={styles.infoContainer}> 
-          <Text style={styles.infoDescriptionRecipe}>{item.description}</Text>
+        </View>        
+        <View style={styles.infoContainer}>
+          <StepsList
+            steps={item.steps}
+            />            
         </View>
       </View>
     </ScrollView>
